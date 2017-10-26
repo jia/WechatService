@@ -90,19 +90,18 @@ public class Controller {
      * 微信退款通知
      */
     @RequestMapping("/refund_notify")
-    public String refundNotify(@RequestBody Map<String,String> reqData) throws Exception {
+    public String refundNotify(@RequestBody Map<String,String> notifyData) throws Exception {
 
-        logger.info("refund_notify:  "+reqData);
-//        MyConfig config = new MyConfig();
-//        WXPay wxpay = new WXPay(config);
-//        Map<String, String> resp =null;
+        logger.info("refund_notify:  " + notifyData);
+        MyConfig config = new MyConfig();
+        WXPay wxpay = new WXPay(config);
 
-        if (reqData.get("result_code") == "SUCCESS" && reqData.get("return_msg") == "OK") {
-            // 返回码成功
-            // TODO 返回码成功的处理。
+        if (wxpay.isPayResultNotifySignatureValid(notifyData)) {
+            // 签名正确
+            // TODO 进行签名正确后的处理。
             return "success";
-        }
-        else {
+        } else {
+            // 签名错误
             return "fail";
         }
     }
