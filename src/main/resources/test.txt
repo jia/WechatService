@@ -1,0 +1,78 @@
+
+1.本地配置
+
+appid:"wxde41f5a91e1a7b02",
+mch_id:"1486523692",
+key:"4gmfiig9gdqp2lecrzkn4afi4dx8z8v3"
+"notify_url":"localhost:8082/pay_notify",
+
+2.统一下单
+{
+    "body":"腾讯充值中心-QQ会员充值",
+    "out_trade_no":"2016090910595900000012",
+    "device_info":"",
+    "fee_type":"CNY",
+    "total_fee":"1",
+    "spbill_create_ip":"123.12.12.123",
+    "notify_url":"http://www.example.com/wxpay/pay_notify",
+    "trade_type":"NATIVE",
+    "product_id":"12"
+}
+统一下单返回
+{
+    "nonce_str":"iFjt3EuIYp3N3t26",
+    "code_url":"weixin://wxpay/bizpayurl?pr=e3JtEyP",
+    "appid":"wxde41f5a91e1a7b02",
+    "sign":"103154202A03B88C2D24FBEA87A61495",
+    "trade_type":"NATIVE",
+    "return_msg":"OK",
+    "result_code":"SUCCESS",
+    "mch_id":"1486523692",
+    "return_code":"SUCCESS",
+    "prepay_id":"wx20171026151347f89c314bf10037953590"
+}
+
+3.退货
+{
+  "transaction_id" : "4006252001201705123297353072",
+  "out_trade_no":"2016090910595900000012",
+  "out_refund_no" : "4006252001201705123297353072",
+  "total_fee" : "1",
+  "refund_fee" :"1",
+  "refund_fee_type": "CNY",
+  "op_user_id":"1486523692"
+}
+放回
+{
+"nonce_str": "vn0lsi4bYVz2Bn1s",
+"appid": "wxde41f5a91e1a7b02",
+"sign": "931B5F4F7B5BC91D33975D4C819A5BFF",
+"err_code": "ORDERNOTEXIST",
+"return_msg": "OK",
+"result_code": "FAIL",
+"err_code_des": "记录不存在",
+"mch_id": "1486523692",
+"return_code": "SUCCESS"
+}
+
+4.支付结果通知
+{
+    "nonce_str":"iFjt3EuIYp3N3t26",
+    "code_url":"weixin://wxpay/bizpayurl?pr=e3JtEyP",
+    "appid":"wxde41f5a91e1a7b02",
+    "sign":"103154202A03B88C2D24FBEA87A61495",
+    "trade_type":"NATIVE",
+    "return_msg":"OK",
+    "result_code":"SUCCESS",
+    "mch_id":"1486523692",
+    "return_code":"SUCCESS",
+    "prepay_id":"wx20171026151347f89c314bf10037953590"
+}
+
+{
+"err_code": "1005",
+"return_msg": "",
+"result_code": "FAIL",
+"err_code_des": "interface_url not set",
+"return_code": "SUCCESS"
+}
