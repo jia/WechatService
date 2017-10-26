@@ -68,11 +68,50 @@ key:"4gmfiig9gdqp2lecrzkn4afi4dx8z8v3"
     "return_code":"SUCCESS",
     "prepay_id":"wx20171026151347f89c314bf10037953590"
 }
-
+返回结果
 {
-"err_code": "1005",
-"return_msg": "",
-"result_code": "FAIL",
-"err_code_des": "interface_url not set",
-"return_code": "SUCCESS"
+    "err_code": "1005",
+    "return_msg": "",
+    "result_code": "FAIL",
+    "err_code_des": "interface_url not set",
+    "return_code": "SUCCESS"
+}
+
+5.查询订单
+{
+  "out_trade_no": "2016090910595900000012"
+}
+
+查询返回
+{
+    nonce_str=IPfjii6oCTbyATuP,
+    out_trade_no=2016090910595900000012,
+    trade_state=NOTPAY,
+    appid=wxde41f5a91e1a7b02,
+    sign=DC9D63AE7A3D4CC54940DF052AD018F1,
+    trade_state_desc=订单未支付,
+    return_msg=OK,
+    result_code=SUCCESS,
+    mch_id=1486523692,
+    return_code=SUCCESS
+}
+
+
+
+
+
+
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@AutoConfigureMockMvc
+public class CustomerControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    public void unifiedOrder() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/unifiedorder"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
 }

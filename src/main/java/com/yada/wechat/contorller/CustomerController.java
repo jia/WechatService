@@ -1,8 +1,6 @@
 package com.yada.wechat.contorller;
 
 import com.github.wxpay.sdk.WXPay;
-import com.github.wxpay.sdk.WXPayConstants;
-import com.github.wxpay.sdk.WXPayUtil;
 import com.yada.wechat.config.MyConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-public class Controller {
+public class CustomerController {
 
-    private static Logger logger = LoggerFactory.getLogger(Controller.class);
+    private static Logger logger = LoggerFactory.getLogger(CustomerController.class);
 
     /**
      * 统一下单
@@ -40,6 +38,28 @@ public class Controller {
 
         return resp;
     }
+
+    /**
+     * 查询订单
+     */
+    @RequestMapping("/orderQuery")
+    public Map<String, String> orderQuery(@RequestBody Map<String,String> reqData) throws Exception {
+
+        MyConfig config = new MyConfig();
+        WXPay wxpay = new WXPay(config);
+        Map<String, String> resp =null;
+
+        logger.info("data: "+reqData);
+        try {
+            resp = wxpay.orderQuery(reqData);
+            logger.info("resp: "+resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resp;
+    }
+
 
     /**
      * 申请退款
@@ -105,5 +125,4 @@ public class Controller {
             return "fail";
         }
     }
-
 }
