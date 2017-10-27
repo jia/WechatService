@@ -1,26 +1,34 @@
-package com.yada.wechat.contorller;
+package com.yada.wechat.service;
 
 import com.github.wxpay.sdk.WXPay;
 import com.yada.wechat.config.MyConfig;
+import com.yada.wechat.stream.Event;
+import com.yada.wechat.stream.EventConstants;
+import com.yada.wechat.stream.WechatProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-@RestController
-public class CustomerController {
+@Component
+public class WechatService {
 
-    private static Logger logger = LoggerFactory.getLogger(CustomerController.class);
+    private WechatProducer wechatProducer;
+
+    @Autowired
+    public WechatService(WechatProducer wechatProducer){
+        this.wechatProducer = wechatProducer;
+    }
+
+    private static Logger logger = LoggerFactory.getLogger(WechatService.class);
 
     /**
      * 统一下单
      */
-    @RequestMapping("/unifiedorder")
-    public Map<String, String> unifiedOrder(@RequestBody Map<String,String> reqData) throws Exception {
+    public Map<String, String> unifiedOrder(Map<String,String> reqData) throws Exception {
 
         MyConfig config = new MyConfig();
         WXPay wxpay = new WXPay(config);
@@ -42,8 +50,7 @@ public class CustomerController {
     /**
      * 查询订单
      */
-    @RequestMapping("/orderQuery")
-    public Map<String, String> orderQuery(@RequestBody Map<String,String> reqData) throws Exception {
+    public Map<String, String> orderQuery(Map<String,String> reqData) throws Exception {
 
         MyConfig config = new MyConfig();
         WXPay wxpay = new WXPay(config);
@@ -60,12 +67,10 @@ public class CustomerController {
         return resp;
     }
 
-
     /**
      * 申请退款
      */
-    @RequestMapping(value = "/refund", method = RequestMethod.POST)
-    public Map<String, String> refund(@RequestBody Map<String,String> reqData) throws Exception {
+    public Map<String, String> refund(Map<String,String> reqData) throws Exception {
 
         MyConfig config = new MyConfig();
         WXPay wxpay = new WXPay(config);
@@ -82,22 +87,16 @@ public class CustomerController {
     }
 
     /**
-     * 微信支付通知
+     * 统一下单通知
      */
-    @RequestMapping("/pay_notify")
-    public String payNotify(@RequestBody Map<String,String> notifyData) throws Exception {
+    public String payNotify(Map<String,String> reqData) throws Exception {
 
-//        String notifyData = "...."; // 支付结果通知的xml格式数据
-//
         MyConfig config = new MyConfig();
         WXPay wxpay = new WXPay(config);
-//
-//        Map<String, String> notifyMap = WXPayUtil.xmlToMap(notifyData);  // 转换成map
 
-        if (wxpay.isPayResultNotifySignatureValid(notifyData)) {
-            // 签名正确
-            // TODO 进行签名正确后的处理。
-            // 注意特殊情况：订单已经退款，但收到了支付结果成功的通知，不应把商户侧订单状态从退款改成支付成功
+        if (wxpay.isPayResultNotifySignatureValid(reqData)) {
+            // 发送统一下单通知type和payload
+            wechatProducer.send(new Event(EventConstants.REFUND_APPLIED,reqData));
             return "success";
         }
         else {
@@ -107,22 +106,23 @@ public class CustomerController {
     }
 
     /**
-     * 微信退款通知
+     * 申请退款通知
      */
-    @RequestMapping("/refund_notify")
-    public String refundNotify(@RequestBody Map<String,String> notifyData) throws Exception {
+    public String refundNotify(@RequestBody Map<String,String> reqData) throws Exception {
 
-        logger.info("refund_notify:  " + notifyData);
+        logger.info("refund_notify:  " + reqData);
         MyConfig config = new MyConfig();
         WXPay wxpay = new WXPay(config);
 
-        if (wxpay.isPayResultNotifySignatureValid(notifyData)) {
+        if (wxpay.isPayResultNotifySignatureValid(reqData)) {
+            // 发送退款通知type和payload
+            wechatProducer.send(new Event(EventConstants.REFUND_APPLIED,reqData));
             // 签名正确
-            // TODO 进行签名正确后的处理。
             return "success";
         } else {
             // 签名错误
             return "fail";
         }
     }
+
 }
