@@ -13,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashMap;
 import java.util.Map;
 
-
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class WechatServiceTest {
@@ -26,44 +25,87 @@ public class WechatServiceTest {
 
     @Test
     public void unifiedOrder() throws Exception {
-        Map<String,String> data = new HashMap<String,String>();
-        data.put("body", "腾讯充值中心-QQ会员充值");
-        data.put("out_trade_no", "2016090910595900000012");
-        data.put("device_info", "");
-        data.put("fee_type", "CNY");
-        data.put("total_fee", "1");
-        data.put("spbill_create_ip", "123.12.12.123");
-        data.put("notify_url", "http://www.example.com/wxpay/notify");
-        data.put("trade_type", "NATIVE");  // 此处指定为扫码支付
-        data.put("product_id", "12");
+        Map<String,String> map = new HashMap<String,String>();
 
         Map<String,String>res= null;
 
         try {
-        BDDMockito.given(wxPay.unifiedOrder(data)).willReturn(res);
+        BDDMockito.given(wxPay.unifiedOrder(map)).willReturn(res);
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        Map<String,String> resq = wechatService.unifiedOrder(data);
-        Assert.assertEquals("SUCCESS",resq.get("result_code"));
-
+        Map<String,String> resq = wechatService.unifiedOrder(map);
+        System.out.println("unifiedOrder: "+resq);
+        Assert.assertEquals(null, resq);
     }
 
     @Test
     public void orderQuery() throws Exception {
+        Map<String,String> map = new HashMap<String,String>();
+
+        Map<String,String>res= null;
+
+        try {
+            BDDMockito.given(wxPay.orderQuery(map)).willReturn(res);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Map<String,String> resq = wechatService.orderQuery(map);
+        System.out.println("orderQuery"+resq);
+        Assert.assertEquals(null, resq);
     }
 
     @Test
     public void refund() throws Exception {
+        Map<String,String> map = new HashMap<String,String>();
+
+        Map<String,String>res= null;
+
+        try {
+            BDDMockito.given(wxPay.refund(map)).willReturn(res);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Map<String,String> resq = wechatService.refund(map);
+        System.out.println("refund"+resq);
+        Assert.assertEquals(null, resq);
     }
 
     @Test
     public void payNotify() throws Exception {
+        Map<String,String> map = new HashMap<String,String>();
+
+        String res= "success";
+
+        try {
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        String resq = wechatService.payNotify(map);
+        System.out.println("payNotify: "+resq);
+        Assert.assertEquals(res, resq);
     }
 
     @Test
     public void refundNotify() throws Exception {
+        Map<String,String> map = new HashMap<String,String>();
+
+        String res= "success";
+
+        try {
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        String resq = wechatService.refundNotify(map);
+        System.out.println("refundNotify :"+resq);
+        Assert.assertEquals(res, resq);
     }
 
 }

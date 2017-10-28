@@ -18,4 +18,7 @@ public class WechatConstants {
     public static final String PAY_NOTIFY = "pay_notify";
     public static final String REFUND_NOTIFY = "refund_notify";
 
+    //查询订单状态
+    public static final String ORDER_QUERY= "orderQuery";
+
 }

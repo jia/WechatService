@@ -105,7 +105,6 @@ public class WechatService {
     public String refundNotify(@RequestBody Map<String,String> reqData) throws Exception {
 
         logger.info("refund_notify:  " + reqData);
-
         if (wxpay.isPayResultNotifySignatureValid(reqData)) {
             // 发送退款通知type和payload
             wechatProducer.send(new Event(WechatConstants.REFUND_APPLIED,reqData));
