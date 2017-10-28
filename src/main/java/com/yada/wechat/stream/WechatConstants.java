@@ -1,6 +1,6 @@
 package com.yada.wechat.stream;
 
-public class EventConstants {
+public class WechatConstants {
 
     //统一下单和申请退款
     public static final String UNIFIED_ORDER = "unifiedorder";

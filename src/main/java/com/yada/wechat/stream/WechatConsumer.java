@@ -1,34 +1,37 @@
 package com.yada.wechat.stream;
 
-import com.yada.wechat.service.WechatService;
 import com.yada.wechat.task.WechatTask;
 import com.yada.wechat.utils.ObjToMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
-import sun.jvm.hotspot.debugger.MachineDescriptionPPC;
 
 import java.util.Map;
 
-@EnableBinding(Sink.class)
+@EnableBinding(WechatProcessor.class)
 public class WechatConsumer {
 
-    private final WechatTask wechatTask;
+    private WechatTask wechatTask;
+    private static Logger logger = LoggerFactory.getLogger(WechatConsumer.class);
+
 
     @Autowired
     public WechatConsumer(WechatTask wechatTask) { this.wechatTask = wechatTask; }
 
-    @StreamListener(Sink.INPUT)
-    public void listener(Event event) throws Exception {
+    @StreamListener(WechatProcessor.INPUT)
+    public void listener(Map<String,Object> map) throws Exception {
 
-        if (EventConstants.UNIFIED_ORDER.equals(event.getType())){
+        if (WechatConstants.UNIFIED_ORDER.equals(map.get("type"))){
             //listener到统一下单的事件
-            wechatTask.doUnifiedOrder(ObjToMap.objMap(event.getPayload()));
+            wechatTask.doUnifiedOrder(ObjToMap.objMap(map.get("payload")));
 
-        }else if(EventConstants.REFUND.equals(event.getType())){
+        }else if(WechatConstants.REFUND.equals(map.get("type"))){
             //监听到退款的事件
-            wechatTask.doRefund(ObjToMap.objMap(event.getPayload()));
+            wechatTask.doRefund(ObjToMap.objMap(map.get("payload")));
+        }else{
+
         }
     }
 

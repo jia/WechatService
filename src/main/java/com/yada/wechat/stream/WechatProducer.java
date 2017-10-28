@@ -5,13 +5,13 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.support.GenericMessage;
 
-@EnableBinding(Source.class)
+@EnableBinding(WechatProcessor.class)
 public class WechatProducer {
 
     private Source source;
 
     @Autowired
-    public WechatProducer(Source source) {
+    public WechatProducer(WechatProcessor wechatProcessor) {
         this.source = source;
     }
 
