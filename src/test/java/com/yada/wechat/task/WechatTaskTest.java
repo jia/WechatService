@@ -38,6 +38,23 @@ public class WechatTaskTest {
 
     @Test
     public void doUnifiedOrder() throws Exception {
+//        Map<String, String> resSuccess = new HashMap<String, String>();
+//        resSuccess.put("return_code", "SUCCESS");
+//
+//        Map<String, String> resFail = new HashMap<String, String>();
+//        resFail.put("return_code", "FAIL");
+//
+//        BDDMockito.given(wechatService.unifiedOrder(BDDMockito.anyMapOf(String.class, String.class)))
+//                .willReturn(resSuccess).willReturn(resFail);
+//
+//        Map<String, String> payload = new HashMap<String, String>();
+//        wechatTask.doUnifiedOrder(payload);
+//        wechatTask.doUnifiedOrder(payload);
+//
+//        BDDMockito.verify(wechatProducer,  times(2))
+//                .send(BDDMockito.any(Event.class));
+//        BDDMockito.verify(planTaskProducer, times(1))
+//                .send(BDDMockito.anyMapOf(String.class, Object.class));
 
     }
 
@@ -45,7 +62,7 @@ public class WechatTaskTest {
     public void doRefund() throws Exception {
 
         Map<String, String> resSuccess = new HashMap<String, String>();
-        resSuccess.put("trade_no", "trade_no");
+        resSuccess.put("return_code", "SUCCESS");
 
         BDDMockito.given(wechatService.refund(BDDMockito.anyMapOf(String.class, String.class)))
                 .willReturn(resSuccess);

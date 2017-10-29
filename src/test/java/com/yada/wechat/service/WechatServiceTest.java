@@ -30,7 +30,7 @@ public class WechatServiceTest {
         Map<String,String>res= null;
 
         try {
-        BDDMockito.given(wxPay.unifiedOrder(map)).willReturn(res);
+        BDDMockito.given(wxPay.unifiedOrder(map)).willReturn(res).willThrow(Exception.class);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class WechatServiceTest {
         Map<String,String>res= null;
 
         try {
-            BDDMockito.given(wxPay.orderQuery(map)).willReturn(res);
+            BDDMockito.given(wxPay.orderQuery(map)).willReturn(res).willThrow(Exception.class);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -64,7 +64,7 @@ public class WechatServiceTest {
         Map<String,String>res= null;
 
         try {
-            BDDMockito.given(wxPay.refund(map)).willReturn(res);
+            BDDMockito.given(wxPay.refund(map)).willReturn(res).willThrow(Exception.class);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -78,34 +78,36 @@ public class WechatServiceTest {
     public void payNotify() throws Exception {
         Map<String,String> map = new HashMap<String,String>();
 
-        String res= "success";
+        String resS= "success";
+        String resF= "fail";
 
         try {
-            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true).willThrow(Exception.class);
         }catch (Exception e){
             e.printStackTrace();
         }
 
         String resq = wechatService.payNotify(map);
         System.out.println("payNotify: "+resq);
-        Assert.assertEquals(res, resq);
+        Assert.assertEquals(resS, resq);
     }
 
     @Test
     public void refundNotify() throws Exception {
         Map<String,String> map = new HashMap<String,String>();
 
-        String res= "success";
+        String resS= "success";
+        String resF= "fail";
 
         try {
-            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true).willThrow(Exception.class);
         }catch (Exception e){
             e.printStackTrace();
         }
 
         String resq = wechatService.refundNotify(map);
         System.out.println("refundNotify :"+resq);
-        Assert.assertEquals(res, resq);
+        Assert.assertEquals(resS, resq);
     }
 
 }
