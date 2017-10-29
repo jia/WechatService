@@ -30,8 +30,6 @@ public class WechatConsumer {
         }else if(WechatConstants.REFUND.equals(map.get("type"))){
             //监听到退款的事件
             wechatTask.doRefund(ObjToMap.objMap(map.get("payload")));
-        }else{
-
         }
     }
 
