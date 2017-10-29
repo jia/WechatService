@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.messaging.support.GenericMessage;
 
+import java.util.Map;
+
 @EnableBinding(PlanTaskProcessor.class)
 public class PlanTaskProducer {
 
@@ -14,7 +16,6 @@ public class PlanTaskProducer {
         this.planTaskProcessor = planTaskProcessor;
     }
 
-    public void send(Event event) {
-        planTaskProcessor.output().send(new GenericMessage<Event>(event));
-    }
-}
+    public boolean send(Map<String, Object> event) {
+        return planTaskProcessor.output().send(new GenericMessage<Map<String, Object>>(event));
+    }}

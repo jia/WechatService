@@ -17,11 +17,10 @@ import java.util.Map;
 public class WechatService {
 
     private WechatProducer wechatProducer;
-    private WechatConfigImpl config;
     private WXPay wxpay;
 
     @Autowired
-    public WechatService(WechatProducer wechatProducer, WechatConfigImpl config,WXPay wxpay){
+    public WechatService(WechatProducer wechatProducer,WXPay wxpay){
         this.wechatProducer = wechatProducer;
         this.wxpay = wxpay;
     }

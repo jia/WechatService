@@ -21,7 +21,7 @@ public class WechatConsumer {
     public WechatConsumer(WechatTask wechatTask) { this.wechatTask = wechatTask; }
 
     @StreamListener(WechatProcessor.INPUT)
-    public void listener(Map<String,Object> map) throws Exception {
+    public void listener(Map<String,String> map) throws Exception {
 
         if (WechatConstants.UNIFIED_ORDER.equals(map.get("type"))){
             //listener到统一下单的事件

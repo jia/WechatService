@@ -25,15 +25,6 @@ public class WechatController {
     }
 
     /**
-     * 查询订单
-     */
-    @RequestMapping("/orderQuery")
-    public Map<String, String> orderQuery(@RequestBody Map<String,String> reqData) throws Exception {
-
-        return wechatService.orderQuery(reqData);
-    }
-
-    /**
      * 微信支付通知
      */
     @RequestMapping(value = "/pay_notify",method = RequestMethod.POST)
@@ -51,8 +42,4 @@ public class WechatController {
        return wechatService.refundNotify(reqData);
     }
 
-//    @GetMapping("/test")
-//    public String test(){
-//        return "123";
-//    }
 }

@@ -1,10 +1,12 @@
 package com.yada.wechat.web;
 
 import com.yada.wechat.service.WechatService;
+import com.yada.wechat.stream.WechatProducer;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,61 +21,34 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-@AutoConfigureMockMvc
 public class WechatControllerTest {
 
     @Autowired
-    private MockMvc mvc;
+    private WechatController wechatController;
 
-//    @Autowired
-//    WebApplicationContext webApplicationConnect;
-//
-//    @Autowired
-//    WechatService wechatService;
-//
-//    @Before
-//    public void setUp() {
-//        mvc = MockMvcBuilders.webAppContextSetup(webApplicationConnect).build();
-//
-//    }
+    @MockBean
+    private WechatProducer wechatProducer;
 
-//    @Test
-//    public void test1() throws Exception {
-//        mvc.perform(MockMvcRequestBuilders.get("/test"))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//
-//    }
+    @MockBean
+    private WechatService wechatService;
 
 
     @Test
-    public void orderQuery() throws Exception {
+    public void payNotify() throws Exception {
 
-        OrderQuery orderQuery = new OrderQuery("2016090910595900000012");
-        mvc.perform(MockMvcRequestBuilders.post("/orderQuery",orderQuery))
-                .andExpect(MockMvcResultMatchers.status().isOk());
+
 
     }
-//
-//    @MockBean
-//    private WechatService wechatService;
-//
-//
-//    @Test
-//    public void payNotify() throws Exception {
-//
-////        PayNotify payNotify = new PayNotify()
-//        mvc.perform(MockMvcRequestBuilders.post("/pay_notify"))
-//                .andExpect(MockMvcResultMatchers.status().isOk());
-//
-//    }
-//
-//    @Test
-//    public void refundNotify() throws Exception {
-//    }
+
+    @Test
+    public void refundNotify() throws Exception {
+    }
 
 }

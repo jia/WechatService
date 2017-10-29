@@ -2,20 +2,19 @@ package com.yada.wechat.stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.messaging.support.GenericMessage;
 
 @EnableBinding(WechatProcessor.class)
 public class WechatProducer {
 
-    private Source source;
+    private WechatProcessor wechatProcessor;
 
     @Autowired
     public WechatProducer(WechatProcessor wechatProcessor) {
-        this.source = source;
+        this.wechatProcessor = wechatProcessor;
     }
 
-    public void send(Event event) {
-        source.output().send(new GenericMessage<Event>(event));
+    public boolean send(Event event) {
+        return wechatProcessor.output().send(new GenericMessage<Event>(event));
     }
 }

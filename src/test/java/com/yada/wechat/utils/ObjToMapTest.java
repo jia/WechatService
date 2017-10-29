@@ -22,7 +22,7 @@ public class ObjToMapTest {
 
         System.out.println(map);
 
-        Assert.assertSame("1",map.get("id"));
+        Assert.assertEquals("1",map.get("id"));
     }
 
 }
