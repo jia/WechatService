@@ -19,7 +19,7 @@ public class WechatTask {
     private PlanTaskProducer planTaskProducer;
 
     @Autowired
-    public WechatTask(WechatService wechatService,WechatProducer wechatProducer){
+    public WechatTask(WechatService wechatService,WechatProducer wechatProducer,PlanTaskProducer planTaskProducer){
         this.wechatService = wechatService;
         this.wechatProducer = wechatProducer;
         this.planTaskProducer = planTaskProducer;
@@ -41,7 +41,7 @@ public class WechatTask {
             // 发送完成事件
             wechatProducer.send(new Event(WechatConstants.UNIFIED_ORDER_APPLIED, resq));
 
-            if("SUCCESS" == resq.get("return_code")){
+            if("SUCCESS".equals(resq.get("return_code")) ){
                 Map<String, Object> taskPayload = new HashMap<String, Object>();
                 taskPayload.put("params", resq);
                 long currentTime = new Date().getTime();
@@ -84,9 +84,9 @@ public class WechatTask {
             if (executedTimes > planTaskExecutedTimes){
 //                Map<String, String> map = alipayService.cancel(params);
                 //todo 撤销查询
+                Map<String, String> map = wechatService.closeOrder(params);
 
-                if("SUCCESS" == params.get("return_code")){
-                    //todo
+                if("SUCCESS".equals(map.get("return_code"))){
                     Map<String, Object> task = new HashMap<String, Object>();
                     task.put("type", PlanTaskConstants.COMPLETED);
                     task.put("payload", reqData);

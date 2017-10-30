@@ -110,4 +110,22 @@ public class WechatServiceTest {
         Assert.assertEquals(resS, resq);
     }
 
+    @Test
+    public void closeOrder() throws Exception {
+        Map<String,String> map = new HashMap<String,String>();
+
+        Map<String,String>res= null;
+
+        try {
+            BDDMockito.given(wxPay.closeOrder(map)).willReturn(res).willThrow(Exception.class);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Map<String,String> resq = wechatService.closeOrder(map);
+        System.out.println("closeOrder: "+resq);
+        Assert.assertEquals(null, resq);
+    }
+
+
 }

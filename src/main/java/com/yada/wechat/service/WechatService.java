@@ -115,4 +115,18 @@ public class WechatService {
         }
     }
 
+    public Map<String, String> closeOrder(Map<String,String> reqData) throws Exception {
+
+        Map<String, String> resp =null;
+        logger.info("data:  "+reqData);
+        try {
+            resp = wxpay.closeOrder(reqData);
+            logger.info("resp： "+resp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return resp;
+    }
+
 }
