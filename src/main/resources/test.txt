@@ -115,3 +115,87 @@ public class CustomerControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }
+
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@SpringBootTest(classes = {WechatConfigImpl.class})
+public class WechatConfigImplTest {
+
+//    @Autowired
+//    public WechatConfigImplTest(WechatProperties wechatProperties){
+//        this.wechatProperties = wechatProperties;
+//    }
+    private WechatConfigImpl wechatConfig;
+
+    public WechatConfigImplTest(WechatConfigImpl wechatConfig){
+        this.wechatConfig = wechatConfig;
+    }
+
+
+//    @Before
+//    public void prepare(){
+//        new WXPay(wechatConfig);
+//    }
+
+    @MockBean
+    private WechatProperties wechatProperties;
+
+    @Test
+    public void getAppID() throws Exception {
+
+//        BDDMockito.verify(wechatProperties, times(1)).getKey();
+}
+
+    @Test
+    public void getMchID() throws Exception {
+
+//        BDDMockito.verify(wechatProperties, times(1)).getKey();
+
+    }
+
+    @Test
+    public void getKey() throws Exception {
+
+//        BDDMockito.verify(wechatProperties, times(1)).getKey();
+
+    }
+
+    @Test
+    public void getCertStream() throws Exception {
+
+//        BDDMockito.verify(wechatProperties, times(1)).getKey();
+
+    }
+
+    @Test
+    public void getHttpConnectTimeoutMs() throws Exception {
+
+//        BDDMockito.verify(wechatProperties, times(1)).getKey();
+
+    }
+
+    @Test
+    public void getHttpReadTimeoutMs() throws Exception {
+
+//        BDDMockito.verify(wechatProperties, times(1)).getKey();
+
+    }
+
+}
+
+
+
+  String executedTimes = reqData.get("executedTimes");
+            long currentTime = new Date().getTime();
+            Long waitTimeByExecutedTimes = currentTime + planTaskStartTime;
+            if(Long.valueOf(executedTimes) == 1){
+                waitTimeByExecutedTimes = currentTime+15 * 60 * 1000;
+            }else if (Long.valueOf(executedTimes) == 2){
+                waitTimeByExecutedTimes = currentTime+30 * 60 * 1000;
+            }else if (Long.valueOf(executedTimes) == 3 ){
+                waitTimeByExecutedTimes = currentTime+180 * 60 * 1000;
+            }else if (Long.valueOf(executedTimes) == 4 || Long.valueOf(executedTimes) == 5|| Long.valueOf(executedTimes) == 6|| Long.valueOf(executedTimes) == 7){
+                waitTimeByExecutedTimes = currentTime+1800 * 60 * 1000;
+            }else if (Long.valueOf(executedTimes) == 8){
+                waitTimeByExecutedTimes = currentTime+3600 * 60 * 1000;
+            }

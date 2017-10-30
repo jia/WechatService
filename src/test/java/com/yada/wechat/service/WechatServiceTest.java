@@ -30,7 +30,7 @@ public class WechatServiceTest {
         Map<String,String>res= null;
 
         try {
-        BDDMockito.given(wxPay.unifiedOrder(map)).willReturn(res).willThrow(Exception.class);
+        BDDMockito.given(wxPay.unifiedOrder(map)).willReturn(res);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -47,7 +47,7 @@ public class WechatServiceTest {
         Map<String,String>res= null;
 
         try {
-            BDDMockito.given(wxPay.orderQuery(map)).willReturn(res).willThrow(Exception.class);
+            BDDMockito.given(wxPay.orderQuery(map)).willReturn(res);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -64,7 +64,7 @@ public class WechatServiceTest {
         Map<String,String>res= null;
 
         try {
-            BDDMockito.given(wxPay.refund(map)).willReturn(res).willThrow(Exception.class);
+            BDDMockito.given(wxPay.refund(map)).willReturn(res);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -82,7 +82,7 @@ public class WechatServiceTest {
         String resF= "fail";
 
         try {
-            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true).willThrow(Exception.class);
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -100,7 +100,7 @@ public class WechatServiceTest {
         String resF= "fail";
 
         try {
-            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true).willThrow(Exception.class);
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -117,7 +117,7 @@ public class WechatServiceTest {
         Map<String,String>res= null;
 
         try {
-            BDDMockito.given(wxPay.closeOrder(map)).willReturn(res).willThrow(Exception.class);
+            BDDMockito.given(wxPay.closeOrder(map)).willReturn(res);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -126,6 +126,5 @@ public class WechatServiceTest {
         System.out.println("closeOrder: "+resq);
         Assert.assertEquals(null, resq);
     }
-
 
 }
