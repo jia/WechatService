@@ -4,11 +4,15 @@ import com.yada.wechat.service.WechatService;
 import com.yada.wechat.stream.Event;
 import com.yada.wechat.stream.PlanTaskProducer;
 import com.yada.wechat.stream.WechatProducer;
+import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,6 +39,8 @@ public class WechatTaskTest {
     @MockBean
     private PlanTaskProducer planTaskProducer;
 
+    @Value("${planTask.executedTimes}")
+    private int planTaskExecutedTimes;
 
     @Test
     public void doUnifiedOrder() throws Exception {
@@ -45,17 +51,56 @@ public class WechatTaskTest {
         Map<String, String> resFail = new HashMap<String, String>();
         resFail.put("return_code", "FAIL");
 
+//        Exception e= new Exception("exception");
+
         BDDMockito.given(wechatService.unifiedOrder(BDDMockito.anyMapOf(String.class, String.class)))
-                .willReturn(resSuccess).willReturn(resFail);
+                .willReturn(resSuccess)
+                .willReturn(resFail)
+                .willReturn(resSuccess)
+                .willReturn(resSuccess)
+                .willReturn(resSuccess)
+                .willReturn(resSuccess);
 
-        Map<String, String> payload = new HashMap<String, String>();
-        wechatTask.doUnifiedOrder(payload);
-        wechatTask.doUnifiedOrder(payload);
+        Map<String, String> payload1 = new HashMap<String, String>();
+        payload1.put("executedTimes", "1");
+        Map<String, String> payload2 = new HashMap<String, String>();
+        payload2.put("executedTimes", "2");
+        Map<String, String> payload3 = new HashMap<String, String>();
+        payload3.put("executedTimes", "3");
+        Map<String, String> payload4 = new HashMap<String, String>();
+        payload4.put("executedTimes", "4");
+        Map<String, String> payload5 = new HashMap<String, String>();
+        payload5.put("executedTimes", "0");
+        Map<String, String> payload6 = new HashMap<String, String>();
+        payload6.put("executedTimes", "8");
+        Map<String, String> payload7 = new HashMap<String, String>();
+        payload7.put("executedTimes", "2");
+        Map<String, String> payload8 = new HashMap<String, String>();
+        wechatTask.doUnifiedOrder(payload1);
+        wechatTask.doUnifiedOrder(payload2);
+        wechatTask.doUnifiedOrder(payload3);
+        wechatTask.doUnifiedOrder(payload4);
+        wechatTask.doUnifiedOrder(payload5);
+        wechatTask.doUnifiedOrder(payload6);
+        wechatTask.doUnifiedOrder(payload7);
+        wechatTask.doUnifiedOrder(payload8);
 
-        BDDMockito.verify(wechatProducer, times(2))
+        BDDMockito.verify(wechatProducer, times(8))
                 .send(BDDMockito.any(Event.class));
-        BDDMockito.verify(planTaskProducer, times(1))
+        BDDMockito.verify(planTaskProducer, times(7))
                 .send(BDDMockito.anyMapOf(String.class, Object.class));
+        BDDMockito.verify(wechatProducer, times(8))
+                .send(BDDMockito.any(Event.class));
+        BDDMockito.verify(wechatProducer, times(8))
+                .send(BDDMockito.any(Event.class));
+        BDDMockito.verify(wechatProducer, times(8))
+                .send(BDDMockito.any(Event.class));
+        BDDMockito.verify(wechatProducer, times(8))
+                .send(BDDMockito.any(Event.class));
+        BDDMockito.verify(wechatProducer, times(8))
+                .send(BDDMockito.any(Event.class));
+        BDDMockito.verify(wechatProducer, times(8))
+                .send(BDDMockito.any(Event.class));
 
     }
 
@@ -103,7 +148,7 @@ public class WechatTaskTest {
         wechatTask.doQuery(payload);
         wechatTask.doQuery(payload);
 
-        payload.put("executedTimes", 6);
+        payload.put("executedTimes", planTaskExecutedTimes+1);
         wechatTask.doQuery(payload);
 
         BDDMockito.verify(wechatService, times(1)).closeOrder(BDDMockito.anyMapOf(String.class, String.class));

@@ -38,6 +38,20 @@ public class WechatServiceTest {
         Map<String,String> resq = wechatService.unifiedOrder(map);
         System.out.println("unifiedOrder: "+resq);
         Assert.assertEquals(null, resq);
+
+//        Map<String,String> resSuccess = new HashMap<String,String>();
+//        resSuccess.put("code","code");
+//        Map<String,String> resFail = new HashMap<String,String>();
+//        resSuccess.put("code","code");
+//        Map<String,String> reqPayload = new HashMap<String,String>();
+//
+//        BDDMockito.given(wxPay.unifiedOrder(BDDMockito.anyMapOf(String.class, String.class)))
+//                .willReturn(resSuccess).willReturn(resFail);
+//
+//        Map<String, String> success = wechatService.unifiedOrder(reqPayload);
+//
+//        Assert.assertEquals(resSuccess.get("code"), success.get("code"));
+
     }
 
     @Test
@@ -82,14 +96,16 @@ public class WechatServiceTest {
         String resF= "fail";
 
         try {
-            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true).willReturn(false);
         }catch (Exception e){
             e.printStackTrace();
         }
 
         String resq = wechatService.payNotify(map);
-        System.out.println("payNotify: "+resq);
+        String resQF = wechatService.payNotify(map);
+        System.out.println("refundNotify :"+resq);
         Assert.assertEquals(resS, resq);
+        Assert.assertEquals(resF, resQF);
     }
 
     @Test
@@ -100,14 +116,16 @@ public class WechatServiceTest {
         String resF= "fail";
 
         try {
-            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true);
+            BDDMockito.given(wxPay.isPayResultNotifySignatureValid(map)).willReturn(true).willReturn(false);
         }catch (Exception e){
             e.printStackTrace();
         }
 
         String resq = wechatService.refundNotify(map);
+        String resQF = wechatService.refundNotify(map);
         System.out.println("refundNotify :"+resq);
         Assert.assertEquals(resS, resq);
+        Assert.assertEquals(resF, resQF);
     }
 
     @Test

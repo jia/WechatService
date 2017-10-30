@@ -45,8 +45,32 @@ public class WechatTask {
                 Map<String, Object> taskPayload = new HashMap<String, Object>();
                 taskPayload.put("params", resq);
                 long currentTime = new Date().getTime();
+                String executedTimes = reqData.get("executedTimes");
+                System.out.println("time: "+executedTimes);
+                Long waitTimeByExecutedTimes ;
+                if (executedTimes != null){
+                    if(Long.valueOf(executedTimes) == 1){
+                        System.out.println("type1");
+                        waitTimeByExecutedTimes = currentTime+15 * 60 * 1000;
+                    }else if (Long.valueOf(executedTimes) == 2){
+                        System.out.println("type2");
+                        waitTimeByExecutedTimes = currentTime+30 * 60 * 1000;
+                    }else if (Long.valueOf(executedTimes) == 3 ){
+                        System.out.println("type3");
+                        waitTimeByExecutedTimes = currentTime+180 * 60 * 1000;
+                    }else if (Long.valueOf(executedTimes) == 4 || Long.valueOf(executedTimes) == 5|| Long.valueOf(executedTimes) == 6|| Long.valueOf(executedTimes) == 7){
+                        waitTimeByExecutedTimes = currentTime+1800 * 60 * 1000;
+                    }else if (Long.valueOf(executedTimes) == 8){
+                        waitTimeByExecutedTimes = currentTime+3600 * 60 * 1000;
+                    }else {
+                        waitTimeByExecutedTimes = currentTime + planTaskStartTime;
+                    }
+                }else {
+                    waitTimeByExecutedTimes = currentTime + planTaskStartTime;
+                }
+                System.out.println("waitTimeByExecutedTimes"+waitTimeByExecutedTimes);
                 taskPayload.put("startTime", currentTime + planTaskStartTime);
-                taskPayload.put("waitTime", planTaskWaitTime);
+                taskPayload.put("waitTime", waitTimeByExecutedTimes);
                 taskPayload.put("type", PlanTaskConstants.COMPLETED);
 
                 Map<String, Object> taskEvent = new HashMap<String, Object>();
@@ -78,12 +102,13 @@ public class WechatTask {
     public void doQuery(Map<String,Object> reqData) throws Exception {
 
         int executedTimes = (Integer) reqData.get("executedTimes");
+        System.out.println("time: "+executedTimes);
         Map<String, String> params = (Map<String, String>) reqData.get("params");
 
         try {
             if (executedTimes > planTaskExecutedTimes){
 //                Map<String, String> map = alipayService.cancel(params);
-                //todo 撤销查询
+                // 撤销查询
                 Map<String, String> map = wechatService.closeOrder(params);
 
                 if("SUCCESS".equals(map.get("return_code"))){
