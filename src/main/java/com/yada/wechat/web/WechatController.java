@@ -1,5 +1,7 @@
 package com.yada.wechat.web;
 
+import com.github.wxpay.sdk.WXPay;
+import com.yada.wechat.config.WechatConfigImpl;
 import com.yada.wechat.service.WechatService;
 import com.yada.wechat.stream.WechatProducer;
 import org.slf4j.Logger;
@@ -20,8 +22,11 @@ public class WechatController {
     private WechatService wechatService;
 
     @Autowired
-    public WechatController(WechatProducer wechatProducer){
-        this.wechatProducer = wechatProducer;
+    WechatConfigImpl myConfig;
+
+    @Autowired
+    public WechatController(WechatProducer wechatProducer,WechatConfigImpl myConfig){
+        this.wechatProducer = wechatProducer;this.myConfig = myConfig;
     }
 
     /**
@@ -41,5 +46,40 @@ public class WechatController {
 
        return wechatService.refundNotify(reqData);
     }
+
+//    @RequestMapping(value = "/refund",method = RequestMethod.POST)
+//    public Map<String,String> refund(@RequestBody Map<String,String> reqData) throws Exception {
+//
+//        Map<String, String> resp =null;
+//        WXPay wxPay = new WXPay(myConfig);
+//
+//        logger.info("data: "+reqData);
+//        try {
+//            resp = wxPay.refund(reqData);
+//            logger.info("resp: "+resp);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return resp;
+//    }
+//
+//    @RequestMapping("/orderQuery")
+//    public Map<String, String> orderQuery(@RequestBody Map<String,String> reqData) throws Exception {
+//
+////        WechatConfigImpl config = new WechatConfigImpl();
+//        WXPay wxpay = new WXPay(myConfig);
+//        Map<String, String> resp =null;
+//
+//        logger.info("data: "+reqData);
+//        try {
+//            resp = wxpay.orderQuery(reqData);
+//            logger.info("resp: "+resp);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return resp;
+//    }
 
 }

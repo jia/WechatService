@@ -15,15 +15,15 @@ public class Event {
         return type;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+//    public void setType(String type) {
+//        this.type = type;
+//    }
 
     public Object getPayload() {
         return payload;
     }
 
-    public void setPayload(Object payload) {
-        this.payload = payload;
-    }
+//    public void setPayload(Object payload) {
+//        this.payload = payload;
+//    }
 }
